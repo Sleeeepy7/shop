@@ -7,6 +7,11 @@ class Category(models.Model):
 
     class Meta:
         ordering = ('-name',)
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -21,3 +26,7 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('shu',)
+
+    def __str__(self):
+        return self.name
+
