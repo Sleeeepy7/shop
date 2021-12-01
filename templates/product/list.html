@@ -8,16 +8,30 @@
                     Categories
                 </h4>
                 <ul class="list-group border-0 categories_list">
-                    <li class="list-group-item border-0 p-0 selected">
-                        <a href="" class="btn btn-block text-left">All</a>
+
+                    <li
+                            {% if not requested_category %}
+                            class="list-group-item border-0 p-0 selected"
+                            {% else %}
+                            class="list-group-item border-0 p-0 unselected"
+                            {% endif %}>
+                        <a href="{% url 'listings:product_list' %}" class="btn btn-block text-left">All</a>
                     </li>
+
                     {% for category in categories %}
-                        <li class="list-group-item border-0 p-0 unselected">
-                            <a href="" class="btn btn-block text-left">
+
+                        <li
+                                {% if category.slug == requested_category.slug %}
+                                class="list-group-item border-0 p-0 selected"
+                                {% else %}
+                                class="list-group-item border-0 p-0 unselected"
+                                {% endif %}>
+                            <a href="{{ category.get_absolute_url }}" class="btn btn-block text-left">
                                 {{ category.name }}
                             </a>
                         </li>
                     {% endfor %}
+
                 </ul>
             </div>
         </div>
@@ -25,7 +39,11 @@
             <div class="card shadow-custom border-0 mb-4">
                 <div class="card-body text-center">
                     <h2 class="font-weight-bold text-grey">
+                        {% if requested_category %}
+                            {{ requested_category.name }}
+                        {% else %}
                         Our products
+                        {% endif %}
                     </h2>
                     <div class="bottom_line"></div>
                 </div>
