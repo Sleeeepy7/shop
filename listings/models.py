@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -28,9 +28,22 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        return reverse('listings:product_detail', args=[self.category.slug, self.slug])
+
     class Meta:
         ordering = ('shu',)
 
     def __str__(self):
         return self.name
 
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+    author = models.CharField(max_length=50)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    text = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
