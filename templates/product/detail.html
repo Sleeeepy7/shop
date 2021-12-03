@@ -79,58 +79,26 @@
                     <h5 class="modal-title">Write your review</h5>
                     <button class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form>
+                <form method="post">
+
+                    {% csrf_token %}
                     <div class="modal-body">
                         <div class="bg-grey">
                             <div class="text-center pt-2">
                                 Rating:
-                                <div id="full-stars" class="d-inline text-center">
-                                    <div class="rating-group">
-                                        <label class="rating__label" for="id_rating_0">
-                                            <i class="rating__icon rating__icon--star fa fa-star">
-                                            </i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_0" value="1" type="radio" required>
-                                        <label class="rating__label" for="id_rating_1">
-                                            <i class="rating__icon rating__icon--star fa fa-star">
-                                            </i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_1" value="2" type="radio" required>
-                                        <label class="rating__label" for="id_rating_2">
-                                            <i class="rating__icon rating__icon--star fa fa-star">
-                                            </i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_2" value="3" type="radio" required>
-                                        <label class="rating__label" for="id_rating_3">
-                                            <i class="rating__icon rating__icon--star fa fa-star">
-                                            </i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_3" value="4" type="radio" required>
-                                        <label class="rating__label" for="id_rating_4">
-                                            <i class="rating__icon rating__icon--star fa fa-star">
-                                            </i>
-                                        </label>
-                                        <input class="rating__input" name="rating" checked
-                                               id="id_rating_4" value="5" type="radio" required>
-                                    </div>
-                                </div>
+                                    {{ review_form.rating }}
                             </div>
-                            <hr class="m-0">
-                            <div class="input-field text-center p-2">
-                                <textarea cols="40" rows="6" class="form-control shadow px-2">
-                                </textarea>
-                            </div>
-                        </div>
+                    <hr class="m-0">
+                    <div class="input-field text-center p-2">
+                        {{ review_form.text }}
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" type="submit">Confirm</button>
-                    </div>
-                </form>
             </div>
         </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="submit">Confirm</button>
+        </div>
+        </form>
     </div>
+    </div>
+</div>
 {% endblock content %}

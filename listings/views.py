@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
+from .forms import ReviewForm
 
 
 def product_list(request, category_slug=None):
@@ -22,6 +23,20 @@ def product_list(request, category_slug=None):
 def product_detail(request, category_slug, product_slug):
     category = get_object_or_404(Category, slug=category_slug)
     product = get_object_or_404(Product, category_id=category.id, slug=product_slug)
-    return render(request, 'product/detail.html', {
-        'product': product
-    })
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+
+        if review_form.is_valid():
+            cf = review_form.cleaned_data
+
+            author_name = "Anonymous"
+            Review.objects.create(
+                product=product,
+                author=author_name,
+                rating=cf['rating'],
+                text=cf['text']
+            )
+        return redirect('listings:product_detail', category_slug=category_slug, product_slug=product_slug)
+    else:
+        review_form = ReviewForm()
+    return render(request, 'product/detail.html', {'product': product, 'review_form': review_form})
