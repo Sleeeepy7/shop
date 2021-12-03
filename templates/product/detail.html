@@ -37,7 +37,7 @@
     <hr>
     <div class="review">
      <span class="font-weight-bold text-grey">
-     Average rating: 4.5/5.0
+     Average rating: {{ product.get_average_review_score }}/5.0
      </span>
     <div class="mb-3 font-weight-bold">
         <a href="" class="text-warning" data-toggle="modal" data-target="#myModal">
@@ -71,6 +71,22 @@
   </div>
  </div>
 </div>
+    <hr class="col-7 mx-auto">
+    <div class="card shadow-custom border-0 col-lg-8 mx-auto mb-3">
+    <h3 class="py-2 text-grey">Reviews:</h3>
+     {% for review in product.reviews.all %}
+    <span class="font-weight-bold py-2 text-grey">
+    {{ review.author }} - {{ review.rating }}/5 - {{ review.created|date }}
+    </span>
+    <span class="text-justify pb-2">
+    {{ review.text }}
+    </span>
+    <hr>
+    {% empty %}
+    <span class="pb-2">Currently no reviews</span>
+    {% endfor %}
+</div>
+
     <!-- MODAL -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -86,7 +102,35 @@
                         <div class="bg-grey">
                             <div class="text-center pt-2">
                                 Rating:
-                                    {{ review_form.rating }}
+                                <div id="full-stars" class="d-inline text-center">
+                                    <div class="rating-group">
+                                        <label class="rating__label" for="id_rating_0">
+                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                        </label>
+                                        <input class="rating__input" name="rating"
+                                               id="id_rating_0" value="1" type="radio" required>
+                                        <label class="rating__label" for="id_rating_1">
+                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                        </label>
+                                        <input class="rating__input" name="rating"
+                                               id="id_rating_1" value="2" type="radio" required>
+                                        <label class="rating__label" for="id_rating_2">
+                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                        </label>
+                                        <input class="rating__input" name="rating"
+                                               id="id_rating_2" value="3" type="radio" required>
+                                        <label class="rating__label" for="id_rating_3">
+                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                        </label>
+                                        <input class="rating__input" name="rating"
+                                               id="id_rating_3" value="4" type="radio" required>
+                                        <label class="rating__label" for="id_rating_4">
+                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                        </label>
+                                        <input class="rating__input" name="rating" checked
+                                               id="id_rating_4" value="5" type="radio" required>
+                                    </div>
+                                </div>
                             </div>
                     <hr class="m-0">
                     <div class="input-field text-center p-2">
