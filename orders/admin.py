@@ -1,2 +1,2 @@
 from django.contrib import admin
-from .models import Order, OrderItems
+from .models import Order, OrderItem
