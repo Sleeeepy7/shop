@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 
-from cart.form import CartAddProductForm
+from cart.forms import CartAddProductForm
 from listings.models import Product
 from decimal import Decimal
 
@@ -20,6 +20,7 @@ def cart_add(request, product_id):
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
+
         if product_id not in cart:
             cart[product_id] = {
                 'quantity': 0,
@@ -29,6 +30,7 @@ def cart_add(request, product_id):
             cart[product_id]['quantity'] = cd['quantity']
         else:
             cart[product_id]['quantity'] += cd['quantity']
+
         request.session.modified = True
     return redirect('cart:cart_detail')
 
@@ -43,9 +45,11 @@ def cart_detail(request):
         cart_item = temp_cart[str(product.id)]
         cart_item['product'] = product
         cart_item['total_price'] = (Decimal(cart_item['price']) * cart_item['quantity'])
-        cart_total_price = sum(Decimal(item['price']) * item['quantity']
-                               for item in temp_cart.values())
-        return render(
+        cart_item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': cart_item['quantity']})
+
+    cart_total_price = sum(Decimal(item['price']) * item['quantity'] for item in temp_cart.values())
+    return render(
             request,
             'cart/detail.html',
             {
